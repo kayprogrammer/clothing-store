@@ -32,7 +32,7 @@ suser:
 	python manage.py createsuperuser
 
 cpass:
-	python manage.py changepassword
+	python manage.py changepassword "$(email)";
 
 shell:
 	python manage.py shell
