@@ -27,6 +27,6 @@ class CustomUserManager(BaseUserManager):
             raise ValidationError(_("Super users must have is_superuser set to True"))
 
         user = self.create_user(
-            first_name=first_name, last_name=last_name, email=email, password=password
+            first_name=first_name, last_name=last_name, email=email, password=password, **extra_fields
         )
         return user
