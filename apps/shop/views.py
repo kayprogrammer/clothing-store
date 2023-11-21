@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.views import View
-from apps.accounts.models import User
 
-from apps.shop.models import Category, Product, Review
+from apps.shop.models import Category, Product
 
 
 # Create your views here.

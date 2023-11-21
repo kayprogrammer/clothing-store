@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views import View
 
-# Create your views here.
+from .forms import LoginForm, RegisterForm
+
+
+class RegisterView(View):
+    def get(self, request):
+        form = RegisterForm()
+        context = {"form": form}
+        return render(request, "accounts/register.html", context)
+
+    def post(self, request):
+        return redirect("")
+
+
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        context = {"form": form}
+        return render(request, "accounts/login.html", context)
+
+    def post(self, request):
+        return redirect("")

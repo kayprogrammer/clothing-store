@@ -36,6 +36,8 @@ THIRD_PARTY_APPS = [
     "debug_toolbar",
     "sweetify",
     "whitenoise",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 LOCAL_APPS = [
@@ -44,6 +46,9 @@ LOCAL_APPS = [
     "apps.profiles",
     "apps.shop",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
