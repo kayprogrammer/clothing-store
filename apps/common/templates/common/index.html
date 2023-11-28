@@ -14,22 +14,29 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-<!--
-
-TemplateMo 546 Sixteen Clothing
-
-https://templatemo.com/tm-546-sixteen-clothing
-
--->
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
 
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="{% static 'assets/js/toast.js' %}"></script>
   </head>
 
   <body>
+    {% if messages %}
+      {% for message in messages %}
+        <script>
+          Toast.fire({
+            icon: '{{ message.level_tag }}',
+            title: '{{ message }}'
+          })
+        </script>
+      {% endfor %}
+    {% endif %}
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -116,8 +123,6 @@ https://templatemo.com/tm-546-sixteen-clothing
           }
       }
     </script>
-
-
   </body>
 
 </html>
