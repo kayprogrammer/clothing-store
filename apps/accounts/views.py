@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from .forms import LoginForm, RegisterForm
 
+
 class RegisterView(View):
     def get(self, request):
         form = RegisterForm()

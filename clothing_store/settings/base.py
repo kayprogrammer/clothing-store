@@ -45,6 +45,7 @@ LOCAL_APPS = [
     "apps.common",
     "apps.profiles",
     "apps.shop",
+    "apps.general",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
