@@ -58,7 +58,14 @@ class TeamMember(BaseModel):
     def __str__(self):
         return self.name
 
-
+    @property
+    def avatar_url(self):
+        try:
+            url = self.avatar.url
+        except:
+            url = ""
+        return url
+    
 class Message(BaseModel):
     name = models.CharField(max_length=200)
     email = models.EmailField()
