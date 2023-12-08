@@ -12,6 +12,9 @@ class SiteDetail(BaseModel):
     phone = models.CharField(max_length=20, null=True)
     address = models.CharField(max_length=500, null=True)
     work_hours = models.CharField(max_length=500, null=True)
+    maps_url = models.URLField(
+        default="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed"
+    )
 
     fb = models.URLField(verbose_name=_("Facebook"), default="https://www.facebook.com")
     ig = models.URLField(
@@ -30,6 +33,7 @@ class SiteDetail(BaseModel):
     #         # Check constraint to allow only one data in table
     #         models.CheckConstraint(check=Count(Q(id__isnull=False), name="unique_site_detail"),
     #     ]
+
 
 ROLE_CHOICES = (
     ("CO-Founder", "CO-Founder"),
@@ -65,7 +69,8 @@ class TeamMember(BaseModel):
         except:
             url = ""
         return url
-    
+
+
 class Message(BaseModel):
     name = models.CharField(max_length=200)
     email = models.EmailField()
@@ -74,3 +79,6 @@ class Message(BaseModel):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["-created_at"]
