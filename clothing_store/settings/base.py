@@ -233,6 +233,9 @@ JAZZMIN_SETTINGS = {
         "shop.category": "fas fa-list",
         "shop.product": "fas fa-tshirt",
         "shop.review": "fas fa-comments",
+        "general.sitedetail": "fas fa-info-circle",
+        "general.message": "fas fa-comments",
+        "general.teammember": "fas fa-users",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
