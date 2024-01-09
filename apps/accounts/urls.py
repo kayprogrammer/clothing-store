@@ -4,11 +4,15 @@ from . import views
 urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
     path("login/", views.LoginView.as_view(), name="login"),
-
-    # EMAIL ACTIVATION
+    # EMAIL VERIFICATION
     path(
         "verify-email/<uidb64>/<token>/<user_id>/",
         views.VerifyEmail.as_view(),
         name="verify-email",
+    ),
+    path(
+        "resend-verification-email/",
+        views.ResendVerificationEmail.as_view(),
+        name="resend-verification-email",
     ),
 ]
