@@ -98,16 +98,17 @@
               <li class="nav-item {% if request.path == contact_url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
               </li>
+              {% if not user.is_authenticated %}
+                {% url 'register' as register_url %}
+                <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
 
-              {% url 'register' as register_url %}
-              <li class="nav-item {% if request.path == register_url %}active{% endif %}">
-                <a class="nav-link" href="{% url 'register' %}">Register</a>
-              </li>
-
-              {% url 'login' as login_url %}
-              <li class="nav-item {% if request.path == login_url %}active{% endif %}">
-                <a class="nav-link" href="{% url 'login' %}">Login</a>
-              </li>
+                {% url 'login' as login_url %}
+                <li class="nav-item {% if request.path == login_url %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+              {% endif %}
             </ul>
           </div>
         </div>
