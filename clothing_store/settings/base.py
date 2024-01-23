@@ -172,6 +172,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+PASSWORD_RESET_TIMEOUT = 900
+
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "CLOTHING STORE ADMIN",

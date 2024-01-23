@@ -5,12 +5,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.views import (
+    PasswordResetView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+    PasswordResetDoneView,
+)
+from apps.accounts.mixins import LogoutRequiredMixin
 from apps.accounts.models import User
 from .senders import SendEmail, email_verification_generate_token
-from .forms import LoginForm, RegisterForm
+from .forms import CustomPasswordResetForm, CustomSetPasswordForm, LoginForm, RegisterForm
 
 
-class RegisterView(View):
+class RegisterView(LogoutRequiredMixin, View):
     def get(self, request):
         form = RegisterForm()
         context = {"form": form}
@@ -28,7 +35,7 @@ class RegisterView(View):
         return render(request, "accounts/register.html", context)
 
 
-class LoginView(View):
+class LoginView(LogoutRequiredMixin, View):
     def get(self, request):
         form = LoginForm()
         context = {"form": form}
@@ -44,6 +51,7 @@ class LoginView(View):
                 messages.error(request, "Invalid Credentials")
                 return redirect("login")
             if not user.is_email_verified:
+                request.session["verification_email"] = email
                 SendEmail.verification(request, user)
                 return render(
                     request,
@@ -56,7 +64,7 @@ class LoginView(View):
         return render(request, "accounts/login.html", context)
 
 
-class VerifyEmail(View):
+class VerifyEmail(LogoutRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         uidb64 = kwargs["uidb64"]
         token = kwargs["token"]
@@ -98,7 +106,7 @@ class VerifyEmail(View):
         )
 
 
-class ResendVerificationEmail(View):
+class ResendVerificationEmail(LogoutRequiredMixin, View):
     def get(self, request):
         email = request.session.get("verification_email")
         try:
@@ -118,3 +126,24 @@ class ResendVerificationEmail(View):
             request,
             "accounts/email-verification-request.html",
         )
+
+class CustomPasswordResetView(LogoutRequiredMixin, PasswordResetView):
+    # Taken from django.contrib.auth.views
+    form_class = CustomPasswordResetForm
+
+
+class CustomPasswordResetConfirmView(LogoutRequiredMixin, PasswordResetConfirmView):
+    # Taken from django.contrib.auth.views
+    form_class = CustomSetPasswordForm
+
+
+class CustomPasswordResetDoneView(LogoutRequiredMixin, PasswordResetDoneView):
+    # This is unnecessary as it can be done in the urls. Its just so that I can pass in Logout Required Mixin Easily
+    # Taken from django.contrib.auth.views
+    template_name = "accounts/password-reset-sent.html"
+
+
+class CustomPasswordResetCompleteView(LogoutRequiredMixin, PasswordResetCompleteView):
+    # This is unnecessary as it can be done in the urls. Its just so that I can pass in Logout Required Mixin Easily
+    # Taken from django.contrib.auth.views
+    template_name = "accounts/password-reset-done.html"
