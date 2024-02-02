@@ -15,7 +15,6 @@ urlpatterns = [
         views.ResendVerificationEmail.as_view(),
         name="resend-verification-email",
     ),
-
     # PASSWORD RESET
     path(
         "reset-password/",
@@ -42,4 +41,5 @@ urlpatterns = [
         views.CustomPasswordResetCompleteView.as_view(),
         name="password_reset_complete",
     ),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
 ]

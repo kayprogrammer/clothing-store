@@ -1,5 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 
 from apps.accounts.models import User
 from django.utils.translation import gettext_lazy as _
@@ -65,6 +69,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Enter your password"}),
     )
+
 
 class CustomPasswordResetForm(PasswordResetForm):
     # Taken from django.contrib.auth.forms

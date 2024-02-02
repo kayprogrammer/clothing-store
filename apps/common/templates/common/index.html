@@ -85,10 +85,15 @@
               {% url 'products' as products_url %}
               <li class="nav-item {% if request.path == products_url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'products' %}">
-                  Our Products
+                  Products
                 </a>
               </li>
-
+              {% url 'categories' as categories_url %}
+              <li class="nav-item {% if request.path == categories_url %}active{% endif %}">
+                <a class="nav-link" href="{% url 'categories' %}">
+                  Categories
+                </a>
+              </li>
               {% url 'about' as about_url %}
               <li class="nav-item {% if request.path == about_url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'about' %}">About Us</a>
@@ -98,7 +103,17 @@
               <li class="nav-item {% if request.path == contact_url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
               </li>
-              {% if not user.is_authenticated %}
+
+              {% url 'cart' as cart_url %}
+              <li class="nav-item {% if request.path == cart_url %}active{% endif %}">
+                <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+              </li>
+
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+              {% else %}
                 {% url 'register' as register_url %}
                 <li class="nav-item {% if request.path == register_url %}active{% endif %}">
                   <a class="nav-link" href="{% url 'register' %}">Register</a>

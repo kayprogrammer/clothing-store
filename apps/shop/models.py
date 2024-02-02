@@ -49,6 +49,17 @@ class Product(BaseModel):
         ordering = ["-created_at"]
 
 
+class OrderItem(BaseModel):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="orderitems", null=True
+    )
+    session_key = models.CharField(max_length=200, null=True)
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="orderitems"
+    )
+    quantity = models.PositiveIntegerField()
+
+
 RATING_CHOICES = ((5, 5), (4, 4), (3, 3), (2, 2), (1, 1))
 
 

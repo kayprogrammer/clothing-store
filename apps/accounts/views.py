@@ -11,10 +11,15 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
     PasswordResetDoneView,
 )
-from apps.accounts.mixins import LogoutRequiredMixin
+from apps.accounts.mixins import LoginRequiredMixin, LogoutRequiredMixin
 from apps.accounts.models import User
 from .senders import SendEmail, email_verification_generate_token
-from .forms import CustomPasswordResetForm, CustomSetPasswordForm, LoginForm, RegisterForm
+from .forms import (
+    CustomPasswordResetForm,
+    CustomSetPasswordForm,
+    LoginForm,
+    RegisterForm,
+)
 
 
 class RegisterView(LogoutRequiredMixin, View):
@@ -127,6 +132,7 @@ class ResendVerificationEmail(LogoutRequiredMixin, View):
             "accounts/email-verification-request.html",
         )
 
+
 class CustomPasswordResetView(LogoutRequiredMixin, PasswordResetView):
     # Taken from django.contrib.auth.views
     form_class = CustomPasswordResetForm
@@ -147,3 +153,9 @@ class CustomPasswordResetCompleteView(LogoutRequiredMixin, PasswordResetComplete
     # This is unnecessary as it can be done in the urls. Its just so that I can pass in Logout Required Mixin Easily
     # Taken from django.contrib.auth.views
     template_name = "accounts/password-reset-done.html"
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect(reverse("login"))
