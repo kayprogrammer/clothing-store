@@ -24,7 +24,9 @@ class Product(BaseModel):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     in_stock = models.PositiveIntegerField()
-    image = models.ImageField(upload_to="products/")
+    image = models.ImageField(default="fallback.jpg", upload_to="products/")
+    featured = models.BooleanField(default=False)
+    flash_deals = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -34,7 +36,7 @@ class Product(BaseModel):
         try:
             url = self.image.url
         except:
-            url = ""
+            url = "https://st2.depositphotos.com/47577860/47705/v/450/depositphotos_477051800-stock-illustration-cloth-shirt-fashion-icon-filled.jpg"
         return url
 
     @property

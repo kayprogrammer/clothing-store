@@ -1,3 +1,4 @@
+import random
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.shortcuts import render
@@ -21,11 +22,17 @@ class HomeView(View):
 
 class ProductsView(ListView):
     model = Product
-    paginate_by = 15
+    paginate_by = 5
     template_name = "shop/products.html"
     context_object_name = "products"
-    queryset = Product.objects.prefetch_related("reviews")
 
+    def get_queryset(self) -> QuerySet[OrderItem]:
+        products = Product.objects.prefetch_related("reviews")
+        filter_value = self.request.GET.get("filter")
+        if filter_value and (filter_value == "featured" or filter_value == "flash_deals"):
+            filter_data = {filter_value: True}
+            products = products.filter(**filter_data)
+        return products
 
 class CategoriesView(ListView):
     model = Category
