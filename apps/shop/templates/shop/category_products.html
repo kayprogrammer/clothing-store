@@ -1,0 +1,20 @@
+{% extends "common/index.html" %} 
+{% load static %} 
+{% block title %}Products | {{ category.name }}{% endblock %} 
+
+{% block content %}
+<!-- Page Content -->
+<div class="page-heading products-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="text-content">
+          <h4>new arrivals</h4>
+          <h2>{{ category.name }} Category</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include "shop/product_list.html" %}
+{% endblock %}

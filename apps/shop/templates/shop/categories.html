@@ -1,0 +1,37 @@
+{% extends "common/index.html" %} 
+{% load static %} 
+{% block title %}Categories{% endblock %} 
+
+{% block content %}
+<!-- Page Content -->
+<div class="page-heading products-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="text-content">
+          <h2>Categories</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+    <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories %}
+            <tr>
+                <th scope="row"><a href="{{ category.get_absolute_url }}">{{ forloop.counter }}<a/></th>
+                <td><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{% endblock %}

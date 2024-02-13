@@ -80,10 +80,10 @@
             <h4>Looking for the best products?</h4>
             <ul class="featured-list">
                 {% for category in categories %}
-                    <li><a href="#">{{ category.name }}</a></li>
+                    <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
-            <a href="#" class="filled-button">See More</a>
+            <a href="{% url 'categories' %}" class="filled-button">See More</a>
         </div>
         </div>
         <div class="col-md-6">

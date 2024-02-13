@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from apps.accounts.models import User
 
 from apps.common.models import BaseModel
@@ -16,6 +17,10 @@ class Category(BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_absolute_url(self):
+        return reverse("category_products", args=[str(self.slug)])
 
 
 class Product(BaseModel):
