@@ -58,15 +58,18 @@ class Product(BaseModel):
 
 class OrderItem(BaseModel):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="orderitems", null=True
+        User, on_delete=models.CASCADE, related_name="orderitems", null=True, blank=True
     )
-    session_key = models.CharField(max_length=200, null=True)
+    session_key = models.CharField(max_length=200, null=True, blank=True)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="orderitems"
     )
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
 
-
+    @property
+    def get_total(self):
+        return self.quantity * self.product.price
+    
 RATING_CHOICES = ((5, 5), (4, 4), (3, 3), (2, 2), (1, 1))
 
 

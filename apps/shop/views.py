@@ -1,4 +1,3 @@
-import random
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
@@ -6,6 +5,8 @@ from django.views import View
 from django.views.generic import ListView
 from apps.shop.models import Category, OrderItem, Product
 from apps.shop.utils import get_session_key, sort_filter_value, sort_products
+from django.core.paginator import Paginator
+import random
 
 
 # Create your views here.
@@ -43,24 +44,21 @@ class CategoriesView(ListView):
     context_object_name = "categories"
 
 
-class CategoryProductsView(ListView):
-    model = Product
-    paginate_by = 15
-    template_name = "shop/category_products.html"
-    context_object_name = "products"
-
-    def get_queryset(self) -> QuerySet[OrderItem]:
+class CategoryProductsView(View):
+    def get(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug=self.kwargs["slug"])
         products = Product.objects.filter(category=category).prefetch_related("reviews")
         products = sort_products(self.request, products)
-        return products
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["category"] = get_object_or_404(Category, slug=self.kwargs["slug"])
+        # Pagination config
+        paginated = Paginator(products, 15)
+        page_number = request.GET.get('page')
+        page = paginated.get_page(page_number)
+        is_paginated = True if page.paginator.num_pages > 1 else False
+
+        context = {"category": category, "page_obj": page, "is_paginated": is_paginated}
         sort_filter_value(self.request, context)
-        return context
-
+        return render(request, "shop/category_products.html", context)
 
 class CartView(ListView):
     model = Category
@@ -71,8 +69,7 @@ class CartView(ListView):
         request = self.request
         user = request.user
         session_key = get_session_key(request)
-        filter_data = session_key or user.id
-        orderitems = OrderItem.objects.filter(
-            Q(session_key=filter_data) | Q(user_id=filter_data)
-        )
-        return orderitems
+        if user.is_authenticated:
+            return OrderItem.objects.filter(user_id=user.id)
+        else:
+            return OrderItem.objects.filter(session_key=session_key)
