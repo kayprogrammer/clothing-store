@@ -16,14 +16,14 @@
             {% for product in page_obj %}
               <div class="col-lg-4 col-md-4 all">
                 <div class="product-item">
-                  <a href="#"
+                  <a href="{{ product.get_absolute_url }}"
                       ><img
                       style="height: 10em; object-fit: cover"
                       src="{{ product.image_url }}"
                       alt=""
                   /></a>
                   <div class="down-content">
-                      <a href="#"><h4>{{ product.name }}</h4></a>
+                      <a href="{{ product.get_absolute_url }}"><h4>{{ product.name }}</h4></a>
                       <h6>${{ product.price }}</h6>
                       <p>{{ product.desc|truncatechars:35 }}</p>
                       <ul class="stars">

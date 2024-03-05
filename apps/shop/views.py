@@ -1,12 +1,13 @@
 from django.db.models.query import QuerySet
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.views.generic import ListView
+from apps.shop.forms import ReviewForm
 from apps.shop.models import Category, OrderItem, Product
 from apps.shop.utils import get_session_key, sort_filter_value, sort_products
 from django.core.paginator import Paginator
-import random
 
 
 # Create your views here.
@@ -37,6 +38,19 @@ class ProductsView(ListView):
         sort_filter_value(self.request, context)
         return context
 
+class ProductView(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            product = Product.objects.select_related("category").prefetch_related("reviews", "reviews__user").get(slug=kwargs["slug"])
+        except Product.DoesNotExist:
+            raise Http404("Product does not exist")
+
+        form = ReviewForm()
+        context = {
+            "product": product,
+            "form": form
+        }
+        return render(request, 'shop/product-detail.html', context)
 
 class CategoriesView(ListView):
     model = Category
@@ -46,7 +60,7 @@ class CategoriesView(ListView):
 
 class CategoryProductsView(View):
     def get(self, request, *args, **kwargs):
-        category = get_object_or_404(Category, slug=self.kwargs["slug"])
+        category = get_object_or_404(Category, slug=kwargs["slug"])
         products = Product.objects.filter(category=category).prefetch_related("reviews")
         products = sort_products(self.request, products)
 

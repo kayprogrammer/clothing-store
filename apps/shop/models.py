@@ -25,6 +25,7 @@ class Category(BaseModel):
 
 class Product(BaseModel):
     name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="name", unique=True, always_update=True)
     desc = models.TextField(_("Description"))
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -52,6 +53,10 @@ class Product(BaseModel):
             avg = round(mean(list(reviews)))  # Mean
         return avg
 
+    @property
+    def get_absolute_url(self):
+        return reverse("product-detail", args=[str(self.slug)])
+    
     class Meta:
         ordering = ["-created_at"]
 

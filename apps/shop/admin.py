@@ -12,7 +12,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "price", "in_stock", "created_at", "updated_at")
     list_filter = list_display
 
-
+    readonly_fields = ("slug",)
+    
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ("user", "product", "rating", "created_at", "updated_at")
     list_filter = list_display
