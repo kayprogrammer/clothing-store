@@ -262,3 +262,5 @@ JAZZMIN_SETTINGS = {
     },
     # "related_modal_active": True # Won't work in some browsers
 }
+
+LOGIN_REDIRECT_URL = "/login/" 
